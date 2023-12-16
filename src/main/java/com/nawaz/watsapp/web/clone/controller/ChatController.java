@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/chat/")
+@RequestMapping("/chat")
 @AllArgsConstructor
 public class ChatController {
 
@@ -41,9 +41,8 @@ public class ChatController {
     private ResponseEntity<Chat> createChat(@PathVariable("userId") Long userId, HttpServletRequest request) {
         User user = this.userRepo.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
-        String token = request.getHeader("Authorization");
-
-        Chat chat = this.chatService.createChat(user, this.tokenHelper.getIdFromToken(token.substring(7)));
+        User user1=this.userService.extractHeaderFromRequest(request);
+        Chat chat = this.chatService.createChat(user1, user.getId());
         return ResponseEntity.ok(chat);
     }
 
@@ -59,11 +58,10 @@ public class ChatController {
         return ResponseEntity.ok(this.chatService.findChatById(chatId));
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ResponseEntity<List<Chat>> findAllUserChat(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        Long userId = this.tokenHelper.getIdFromToken(token.substring(7));
-        List<Chat> chats = this.chatService.findAllChatById(userId);
+        User user = this.userService.extractHeaderFromRequest(request);
+        List<Chat> chats = this.chatService.findAllChatById(user.getId());
         return ResponseEntity.ok(chats);
     }
 
@@ -85,11 +83,9 @@ public class ChatController {
     public ResponseEntity<ApiResponse> deleteChat(@PathVariable Long chatId, HttpServletRequest request) {
         User user = this.userService.extractHeaderFromRequest(request);
         this.chatService.deletChat(chatId, user.getId());
-        ApiResponse response = new ApiResponse("Chat is deleted successfully", true)
+        ApiResponse response = new ApiResponse("Chat is deleted successfully", true);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
 
 
 }

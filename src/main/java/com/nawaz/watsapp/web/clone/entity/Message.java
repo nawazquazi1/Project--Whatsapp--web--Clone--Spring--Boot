@@ -23,12 +23,9 @@ public class Message {
     private Chat chat;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", referencedColumnName = "id")
-    private User sender;
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "recipient_id", referencedColumnName = "id")
-    private User recipient;
 
     @Column(nullable = false, length = 500)
     private String messageText;

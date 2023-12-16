@@ -25,20 +25,20 @@ public class Chat {
     private String chatName;
     private boolean isGroup;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User createBy;
 
 //    @ManyToOne
 //    private User user;
 
-    @ManyToMany
-    private Set<User> users=new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<User> users = new HashSet<>();
 
-@ManyToMany
-    private Set<User> admins=new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<User> admins = new HashSet<>();
 
-    @OneToMany
-    private List<Message> messages=new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Message> messages = new ArrayList<>();
 
 
 }

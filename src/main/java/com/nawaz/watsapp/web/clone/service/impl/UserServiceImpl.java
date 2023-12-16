@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -41,12 +42,18 @@ public class UserServiceImpl implements UserService {
     public User extractHeaderFromRequest(HttpServletRequest request) {
         String requestHeader = request.getHeader("Authorization");
         String token = requestHeader.substring(7);
-        Long id = this.tokenHelper.getIdFromToken(token);
-        return this.userRepo.findById(id).orElseThrow();
+        return this.userRepo.findByUserName(this.tokenHelper.getUsernameFromToken(token)).orElseThrow();
     }
 
     @Override
-    public List<UserDto> searchUsersByUsername(String username) {
-        return null;
+    public List<User> searchUsersByUsername(String username) {
+        List<User> usersList = this.userRepo.findByUserNameOrUserNameStartsWith(username, username);
+//        return usersList.stream().map(user -> {
+//            return UserDto.builder()
+//                    .id(user.getId())
+//                    .username(user.getUsername())
+//                    .build();
+//        }).collect(Collectors.toList());
+        return usersList;
     }
 }

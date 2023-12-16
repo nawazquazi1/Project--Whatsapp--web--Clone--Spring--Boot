@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(AppConstants.PUBLIC_URLS).permitAll()
-//                .requestMatchers(HttpMethod.GET).permitAll()
+                .requestMatchers(HttpMethod.GET).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

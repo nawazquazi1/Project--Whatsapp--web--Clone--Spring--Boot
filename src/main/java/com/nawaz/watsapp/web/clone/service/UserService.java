@@ -16,7 +16,7 @@ public interface UserService {
 //    boolean sendVerificationToEmail(String username, String email);
 //    boolean verifyConfirmationCode(String email, String password);
 
-    List<UserDto> searchUsersByUsername(String username);
+    List<User> searchUsersByUsername(String username);
 
 
 

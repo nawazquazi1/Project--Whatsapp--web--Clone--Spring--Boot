@@ -63,7 +63,10 @@ public class JwtTokenHelper {
 	// generate token from UserDetails
 	public String generateToken(User userDetails) {
 		Map<String, Object> claims = new HashMap<>();
-		return generateToken(claims, userDetails);
+		if(userDetails.getId() != null) {
+			claims.put("userId", userDetails.getId());
+		}
+			return generateToken(claims, userDetails);
 	}
 	
 	// Implementation of generating Token

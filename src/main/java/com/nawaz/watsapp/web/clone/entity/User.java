@@ -1,5 +1,6 @@
 package com.nawaz.watsapp.web.clone.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,7 +56,7 @@ public class User implements UserDetails {
                 collect(Collectors.toList());
     }
 
-    @Override
+    @JsonIgnore
     public String getPassword() {
         return this.password;
     }
